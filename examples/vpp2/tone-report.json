@@ -34,62 +34,62 @@
     {
       "level": "pass",
       "code": "dash",
-      "message": "破折号 0 处，在预算 9 内"
+      "message": "em dashes: 0, within the budget of 9"
     },
     {
       "level": "pass",
       "code": "bold",
-      "message": "加粗 1 处，在预算 15 内"
+      "message": "bold spans: 1, within the budget of 15"
     },
     {
       "level": "pass",
       "code": "bold_label",
-      "message": "加粗标签+冒号的条目 0 处，在预算 4 内"
+      "message": "bold-label list items: 0, within the budget of 4"
     },
     {
       "level": "pass",
       "code": "question",
-      "message": "开段设问 1 处，在预算 3 内"
+      "message": "opening rhetorical questions: 1, within the budget of 3"
     },
     {
       "level": "pass",
       "code": "restate",
-      "message": "「也就是说」式复述 0 处，在预算 3 内"
+      "message": "「也就是说」-style restatements: 0, within the budget of 3"
     },
     {
       "level": "pass",
       "code": "gloss",
-      "message": "重复的中英夹注 0 处，在预算 3 内"
+      "message": "repeated bilingual glosses: 0, within the budget of 3"
     },
     {
       "level": "pass",
       "code": "rhythm",
-      "message": "段落长短有变化（0.37）"
+      "message": "paragraph lengths vary (0.37)"
     },
     {
       "level": "pass",
       "code": "rhythm",
-      "message": "句子长短有变化（0.57）"
+      "message": "sentence lengths vary (0.57)"
     },
     {
       "level": "pass",
       "code": "rhythm",
-      "message": "段内句长有变化，没有连续同头句"
+      "message": "sentence lengths vary inside paragraphs, no repeated openers"
     },
     {
       "level": "pass",
       "code": "terms",
-      "message": "近义词轮换 0 处，术语基本稳定"
+      "message": "0 synonym rotations, terminology is stable"
     },
     {
       "level": "pass",
       "code": "headings",
-      "message": "标题形式有变化（3/12 带冒号副标题）"
+      "message": "heading shapes vary (3/12 carry a colon subtitle)"
     },
     {
       "level": "pass",
       "code": "template",
-      "message": "图解入口有 2 种顺序，最常见的占 60%"
+      "message": "2 distinct explanation orders, the commonest at 60%"
     }
   ]
 }

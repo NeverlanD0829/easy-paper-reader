@@ -204,7 +204,7 @@ def convert(markdown: str, base: Path) -> str:
 
 PAGE = """<!DOCTYPE html>
 <meta charset="utf-8">
-<title>{title} — 粘进知乎</title>
+<title>{title} — paste into Zhihu</title>
 <body style="margin:0;background:#f6f6f6">
 <div style="max-width:690px;margin:0 auto;padding:24px;background:#fff;
 font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
@@ -217,15 +217,15 @@ font-size:15px;color:#1a1a1a">
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="article.md -> 可直接粘进知乎编辑器的 HTML")
+        description="article.md -> HTML that pastes into the Zhihu editor")
     parser.add_argument("markdown", type=Path)
     parser.add_argument("-o", "--out", type=Path,
-                        help="默认是同目录下的 article-zhihu.html")
+                        help="defaults to article-zhihu.html beside the input")
     args = parser.parse_args()
 
     src = args.markdown
     if not src.is_file():
-        print(f"找不到 {src}", file=sys.stderr)
+        print(f"no such file: {src}", file=sys.stderr)
         return 1
     text = src.read_text(encoding="utf-8")
     body = convert(text, src.parent)
@@ -234,22 +234,25 @@ def main() -> int:
                    encoding="utf-8")
 
     counts = {
-        "公式": body.count(EQUATION),
-        "表格": body.count("<table"),
-        "表格行": body.count("<tr>"),
-        "图片": body.count("<img src=\"file://"),
-        "小节标题": body.count("<h2") + body.count("<h3"),
-        "缺失的图": body.count("本地文件缺失"),
+        "formulas": body.count(EQUATION),
+        "tables": body.count("<table"),
+        "table rows": body.count("<tr>"),
+        "images": body.count("<img src=\"file://"),
+        "headings": body.count("<h2") + body.count("<h3"),
+        "missing images": body.count("本地文件缺失"),
     }
     leftovers = {mark: body.count(mark)
                  for mark in ("**", "|---", "## ") if mark in body}
-    print(f"写出 {out}（{out.stat().st_size // 1024} KB）")
-    print("  " + "，".join(f"{k} {v}" for k, v in counts.items()))
+    print(f"wrote {out} ({out.stat().st_size // 1024} KB)")
+    print("  " + ", ".join(f"{k} {v}" for k, v in counts.items()))
     if leftovers:
-        print("  还有没转掉的 Markdown 标记：" + str(leftovers), file=sys.stderr)
-    print("\n粘贴步骤：在浏览器里打开这个文件 → Cmd+A → Cmd+C → 知乎编辑器里 Cmd+V。"
-          "\n公式由知乎自己的 equation 接口渲染，图片走本地 file://，"
-          "浏览器会把位图一起放进剪贴板，知乎通常会自动重新上传。")
+        print("  unconverted Markdown markers left: " + str(leftovers),
+              file=sys.stderr)
+    print("\nTo paste: open this file in a browser -> Cmd+A -> Cmd+C -> "
+          "Cmd+V into the Zhihu editor."
+          "\nFormulas are rendered by Zhihu's own equation endpoint; images "
+          "use local file:// URLs, the browser puts the bitmaps on the "
+          "clipboard too, and Zhihu usually re-uploads them.")
     return 0
 
 

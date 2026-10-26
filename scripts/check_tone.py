@@ -243,11 +243,13 @@ def check_template(findings: list[dict], article: str) -> dict:
                "figure_order_share": round(share, 2)}
     if share >= 0.7:
         add(findings, "error" if share >= 0.9 else "warning", "template",
-            f"{repeats}/{len(blocks)} 张图的讲解按同一个顺序展开"
-            f"（{' → '.join(common)}）：换入口，有的先甩数字，有的先说疑点")
+            f"{repeats}/{len(blocks)} figure blocks unfold in the same order "
+            f"({' → '.join(common)}): vary the entry point — open one on a "
+            "number, another on a doubt")
     else:
         add(findings, "pass", "template",
-            f"图解入口有 {len(orders)} 种顺序，最常见的占 {share:.0%}")
+            f"{len(orders)} distinct explanation orders, the commonest at "
+            f"{share:.0%}")
     return metrics
 
 
@@ -261,11 +263,13 @@ def check_headings(findings: list[dict], article: str) -> dict:
     share = colons / len(titles)
     if share >= 0.8:
         add(findings, "warning", "headings",
-            f"{colons}/{len(titles)} 个标题都是「短语：卖点」的模子："
-            "有些章节直接用它的名字就够了")
+            f"{colons}/{len(titles)} headings are cast in the same "
+            "「phrase：selling point」 mould: some sections do fine with just "
+            "their name")
     else:
         add(findings, "pass", "headings",
-            f"标题形式有变化（{colons}/{len(titles)} 带冒号副标题）")
+            f"heading shapes vary ({colons}/{len(titles)} carry a colon "
+            "subtitle)")
     return {"headings": len(titles), "headings_with_subtitle": colons}
 
 
@@ -300,11 +304,14 @@ def check_budget(findings: list[dict], code: str, label: str, count: int,
     budget = max(FLOOR, round(per_10k * length / 10000))
     if count > 2 * budget:
         add(findings, "error", code,
-            f"{label} {count} 处，预算 {budget}（每万字 {per_10k:g}）：已经成为版式习惯")
+            f"{label}: {count}, budget {budget} ({per_10k:g} per 10k "
+            "characters) — it has become a layout habit")
     elif count > budget:
-        add(findings, "warning", code, f"{label} {count} 处，预算 {budget}")
+        add(findings, "warning", code,
+            f"{label}: {count}, budget {budget}")
     else:
-        add(findings, "pass", code, f"{label} {count} 处，在预算 {budget} 内")
+        add(findings, "pass", code,
+            f"{label}: {count}, within the budget of {budget}")
 
 
 def check_rhythm(findings: list[dict], text: str) -> dict:
@@ -312,18 +319,21 @@ def check_rhythm(findings: list[dict], text: str) -> dict:
     paras = paragraphs(text)
     sentences = [s for s in re.split(r"[。！？\n]", text) if len(s.strip()) > 8]
     metrics = {"paragraphs": len(paras), "sentences": len(sentences)}
-    for name, items, floor in (("段落", paras, 12), ("句子", sentences, 40)):
+    for key, name, items, floor in (("para", "paragraph", paras, 12),
+                                    ("sentence", "sentence", sentences, 40)):
         if len(items) < floor:
             continue
         lengths = [len(i) for i in items]
         mean = statistics.mean(lengths)
         spread = statistics.pstdev(lengths) / mean if mean else 0
-        metrics[f"{'para' if name == '段落' else 'sentence'}_spread"] = round(spread, 3)
+        metrics[f"{key}_spread"] = round(spread, 3)
         if spread < 0.35:
             add(findings, "warning", "rhythm",
-                f"{name}长度过于整齐（变异系数 {spread:.2f} < 0.35）：长短句交替着写")
+                f"{name} lengths are too uniform (coefficient of variation "
+                f"{spread:.2f} < 0.35): alternate short and long")
         else:
-            add(findings, "pass", "rhythm", f"{name}长短有变化（{spread:.2f}）")
+            add(findings, "pass", "rhythm",
+                f"{name} lengths vary ({spread:.2f})")
     openers: dict[str, int] = {}
     for para in paras:
         head = para.lstrip("*-+ 　")[:4]
@@ -333,7 +343,7 @@ def check_rhythm(findings: list[dict], text: str) -> dict:
     if repeated:
         worst = "、".join(f"「{h}」×{n}" for n, h in reversed(repeated[:3]))
         add(findings, "error" if repeated[-1][0] >= 5 else "warning", "rhythm",
-            f"多个段落用同一个开头：{worst}")
+            f"several paragraphs share one opener: {worst}")
     return metrics
 
 
@@ -362,13 +372,15 @@ def check_para_rhythm(findings: list[dict], text: str) -> dict:
     metrics = {"flat_paragraphs": flat, "connective_runs": connective}
     if flat >= 3:
         add(findings, "error" if flat >= 6 else "warning", "rhythm",
-            f"{flat} 个段落内部每句话长度几乎相同（极差 ≤12 字）：段内也要长短交替")
+            f"{flat} paragraphs whose sentences are all nearly the same length "
+            "(range ≤12 characters): alternate inside the paragraph too")
     if connective >= 2:
         add(findings, "warning", "rhythm",
-            f"连续两句用同一类连接词或同一个开头 {connective} 处："
-            "「此外」「同时」一段里一次就够")
+            f"{connective} places where consecutive sentences share a "
+            "connective or an opener: 「此外」「同时」 once per paragraph is plenty")
     if flat < 3 and connective < 2:
-        add(findings, "pass", "rhythm", "段内句长有变化，没有连续同头句")
+        add(findings, "pass", "rhythm",
+            "sentence lengths vary inside paragraphs, no repeated openers")
     return metrics
 
 
@@ -392,10 +404,11 @@ def check_terms(findings: list[dict], text: str) -> dict:
                 hits.append("／".join(used))
     if len(hits) >= 3:
         add(findings, "warning", "terms",
-            f"{len(hits)} 个段落在同一段里轮换近义词（如 {hits[0]}）："
-            "同一个东西用同一个词，重复不是毛病")
+            f"{len(hits)} paragraphs rotate synonyms for one referent "
+            f"(e.g. {hits[0]}): one thing, one word — repetition is not a defect")
     else:
-        add(findings, "pass", "terms", f"近义词轮换 {len(hits)} 处，术语基本稳定")
+        add(findings, "pass", "terms",
+            f"{len(hits)} synonym rotations, terminology is stable")
     return {"synonym_rotations": len(hits)}
 
 
@@ -424,48 +437,53 @@ def main() -> int:
 
     residue = [m.group(0) for m in RESIDUE.finditer(text)]
     if residue:
-        add(findings, "error", "residue", f"对话残留：{sample(residue)}")
+        add(findings, "error", "residue",
+            f"chat residue: {sample(residue)}")
     for name, pattern, label in (
-            ("invisible", INVISIBLE, "零宽与方向控制字符"),
-            ("debris", DEBRIS, "模型来源残留（引用脚手架、utm 参数）"),
-            ("placeholder", PLACEHOLDER, "没填的占位符")):
+            ("invisible", INVISIBLE, "zero-width and directional control characters"),
+            ("debris", DEBRIS, "model residue (citation scaffolding, utm parameters)"),
+            ("placeholder", PLACEHOLDER, "unfilled placeholders")):
         found = [m.group(0) for m in pattern.finditer(article)]
         if found:
             add(findings, "error", "residue",
-                f"{label} {len(found)} 处：发布前必须清掉"
-                + (f"（{sample(found)}）" if name != "invisible" else ""))
+                f"{label}: {len(found)} — must be cleared before publishing"
+                + (f" ({sample(found)})" if name != "invisible" else ""))
     emoji = [m.group(0) for m in EMOJI.finditer(article)]
     if emoji:
         add(findings, "error", "decoration",
-            f"正文里有 emoji {len(emoji)} 处：{sample(emoji)}")
+            f"{len(emoji)} emoji in the body: {sample(emoji)}")
     signposts = [m.group(0) for m in SIGNPOST.finditer(text)]
     if len(signposts) > 2:
         add(findings, "warning", "decoration",
-            f"勾叉箭头等符号 {len(signposts)} 处：行文里用文字说，表格和公式里留着无妨")
+            f"{len(signposts)} check marks, crosses or arrows: say it in words "
+            "in prose; inside tables and formulas they are fine")
     rules = len(RULE_LINE.findall(article))
     if rules:
-        add(findings, "warning", "decoration", f"分节横线 {rules} 条：标题已经分节了")
+        add(findings, "warning", "decoration",
+            f"{rules} horizontal rule(s): the headings already divide the article")
     tricolons = [m for m in TRICOLON.finditer(text)
                  if max(map(len, m.groups())) - min(map(len, m.groups())) <= 2]
     if len(tricolons) >= 4:
         add(findings, "warning", "staging",
-            f"等长三连排比 {len(tricolons)} 处："
-            f"{sample([m.group(0)[:24] for m in tricolons])} / 第三项通常是凑的")
+            f"{len(tricolons)} equal-length tricolons: "
+            f"{sample([m.group(0)[:24] for m in tricolons])} / the third item is "
+            "usually filler")
         tells += len(tricolons)
 
     dashes = text.count("——")
     bolds = BOLD.findall(text)
     labels = BOLD_LABEL.findall(text)
-    check_budget(findings, "dash", "破折号", dashes, length, BUDGETS["dash"])
-    check_budget(findings, "bold", "加粗", len(bolds), length, BUDGETS["bold"])
-    check_budget(findings, "bold_label", "加粗标签+冒号的条目", len(labels),
+    check_budget(findings, "dash", "em dashes", dashes, length, BUDGETS["dash"])
+    check_budget(findings, "bold", "bold spans", len(bolds), length,
+                 BUDGETS["bold"])
+    check_budget(findings, "bold_label", "bold-label list items", len(labels),
                  length, BUDGETS["bold_label"])
     openers = re.findall(r"(?:^|\n)[^\n？]{4,60}？", text)
-    check_budget(findings, "question", "开段设问", len(openers), length,
-                 BUDGETS["question"])
+    check_budget(findings, "question", "opening rhetorical questions",
+                 len(openers), length, BUDGETS["question"])
     restates = RESTATE.findall(text)
-    check_budget(findings, "restate", "「也就是说」式复述", len(restates), length,
-                 BUDGETS["restate"])
+    check_budget(findings, "restate", "「也就是说」-style restatements",
+                 len(restates), length, BUDGETS["restate"])
     glosses = [m.group(1).strip() for m in GLOSS.finditer(text)]
     seen: set[str] = set()
     repeats = []
@@ -474,8 +492,8 @@ def main() -> int:
         if key in seen:
             repeats.append(term)
         seen.add(key)
-    check_budget(findings, "gloss", "重复的中英夹注", len(repeats), length,
-                 BUDGETS["gloss"])
+    check_budget(findings, "gloss", "repeated bilingual glosses", len(repeats),
+                 length, BUDGETS["gloss"])
 
     metrics = {"body_characters": length, "tells": tells, "dashes": dashes,
                "bold": len(bolds), "bold_labels": len(labels),
@@ -489,8 +507,9 @@ def main() -> int:
     metrics.update(check_template(findings, article))
     if length and tells * 10000 / length > 8:
         add(findings, "error", "density",
-            f"句式与词汇类共 {tells} 处，每万字 {metrics['tells_per_10k']}，"
-            "超过 8：整段重写，不要逐条替换短语")
+            f"{tells} sentence-pattern and vocabulary tells, "
+            f"{metrics['tells_per_10k']} per 10k characters, over 8: rewrite "
+            "whole paragraphs, do not swap phrases one by one")
 
     counts = {level: sum(1 for f in findings if f["level"] == level)
               for level in ("pass", "warning", "error")}
