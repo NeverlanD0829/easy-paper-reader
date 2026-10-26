@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "article": "examples/vpp2/article.md",
+  "source_sha256": "e2caee1cc9d2187901e29910b11e654183646a218d93b0f9420ebef36e817db3",
+  "summary": {
+    "status": "pass",
+    "passes": 13,
+    "warnings": 0,
+    "errors": 0
+  },
+  "metrics": {
+    "article_characters": 17463,
+    "figures_total": 10,
+    "images_used": 14,
+    "figures_missing": 0,
+    "figure_blocks": 10,
+    "figure_blocks_incomplete": 0,
+    "assets_recorded": 14,
+    "assets_unviewed": 0,
+    "assets_oversized": 0,
+    "headings": 12,
+    "headings_english_tails": 0,
+    "headings_invented": 2,
+    "outline_entries": 18,
+    "outline_mapped": 10,
+    "outline_confirmed": true,
+    "closing_characters": 534,
+    "innovations": 8,
+    "innovations_unsupported": 0,
+    "innovation_strength": {
+      "strong": 1,
+      "moderate": 6,
+      "claimed": 1
+    },
+    "asset_anchors": 56,
+    "numbers_unanchored": 0,
+    "selection_confirmed": true
+  },
+  "findings": [
+    {
+      "level": "pass",
+      "code": "figures_coverage",
+      "message": "all 10 figures embedded"
+    },
+    {
+      "level": "pass",
+      "code": "figure_explained",
+      "message": "every embedded figure is oriented, read with numbers and bounded"
+    },
+    {
+      "level": "pass",
+      "code": "crop_provenance",
+      "message": "all 14 embedded images have provenance"
+    },
+    {
+      "level": "pass",
+      "code": "figure_viewed",
+      "message": "every embedded crop was viewed before being written about"
+    },
+    {
+      "level": "pass",
+      "code": "zhihu_assets",
+      "message": "all images within zhihu limits"
+    },
+    {
+      "level": "pass",
+      "code": "no_english_tails",
+      "message": "no heading carries the English original in parentheses"
+    },
+    {
+      "level": "pass",
+      "code": "outline_alignment",
+      "message": "10 of 10 mapped sections present, in paper order"
+    },
+    {
+      "level": "pass",
+      "code": "no_invented_sections",
+      "message": "2 invented section(s), within the allowance"
+    },
+    {
+      "level": "pass",
+      "code": "closing_section",
+      "message": "the article closes with 总结"
+    },
+    {
+      "level": "pass",
+      "code": "closing_section",
+      "message": "总结 is 534 characters, within the 1200 budget"
+    },
+    {
+      "level": "pass",
+      "code": "innovation_evidence",
+      "message": "all 8 innovations carry evidence and a strength"
+    },
+    {
+      "level": "pass",
+      "code": "numeric_anchors",
+      "message": "every quoted number sits near one of 56 图/表 references"
+    },
+    {
+      "level": "pass",
+      "code": "selected_tables_confirmed",
+      "message": "the table and equation shortlist was confirmed by the user"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "article": "examples/vpp2/article.md",
+  "summary": {
+    "status": "pass",
+    "passes": 12,
+    "warnings": 0,
+    "errors": 0
+  },
+  "metrics": {
+    "body_characters": 14737,
+    "tells": 0,
+    "dashes": 0,
+    "bold": 1,
+    "bold_labels": 0,
+    "restatements": 0,
+    "glosses": 1,
+    "gloss_repeats": 0,
+    "tells_per_10k": 0.0,
+    "paragraphs": 98,
+    "sentences": 250,
+    "para_spread": 0.368,
+    "sentence_spread": 0.567,
+    "flat_paragraphs": 1,
+    "connective_runs": 0,
+    "synonym_rotations": 0,
+    "headings": 12,
+    "headings_with_subtitle": 3,
+    "figure_blocks": 10,
+    "figure_order_variants": 2,
+    "figure_order_share": 0.6
+  },
+  "findings": [
+    {
+      "level": "pass",
+      "code": "dash",
+      "message": "破折号 0 处，在预算 9 内"
+    },
+    {
+      "level": "pass",
+      "code": "bold",
+      "message": "加粗 1 处，在预算 15 内"
+    },
+    {
+      "level": "pass",
+      "code": "bold_label",
+      "message": "加粗标签+冒号的条目 0 处，在预算 4 内"
+    },
+    {
+      "level": "pass",
+      "code": "question",
+      "message": "开段设问 1 处，在预算 3 内"
+    },
+    {
+      "level": "pass",
+      "code": "restate",
+      "message": "「也就是说」式复述 0 处，在预算 3 内"
+    },
+    {
+      "level": "pass",
+      "code": "gloss",
+      "message": "重复的中英夹注 0 处，在预算 3 内"
+    },
+    {
+      "level": "pass",
+      "code": "rhythm",
+      "message": "段落长短有变化（0.37）"
+    },
+    {
+      "level": "pass",
+      "code": "rhythm",
+      "message": "句子长短有变化（0.57）"
+    },
+    {
+      "level": "pass",
+      "code": "rhythm",
+      "message": "段内句长有变化，没有连续同头句"
+    },
+    {
+      "level": "pass",
+      "code": "terms",
+      "message": "近义词轮换 0 处，术语基本稳定"
+    },
+    {
+      "level": "pass",
+      "code": "headings",
+      "message": "标题形式有变化（3/12 带冒号副标题）"
+    },
+    {
+      "level": "pass",
+      "code": "template",
+      "message": "图解入口有 2 种顺序，最常见的占 60%"
+    }
+  ]
+}

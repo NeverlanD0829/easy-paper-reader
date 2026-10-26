@@ -1,0 +1,632 @@
+{
+  "schema_version": "1.0",
+  "source_bundle": "/tmp/vpp2-test/source_bundle.json",
+  "source_sha256": "e2caee1cc9d2187901e29910b11e654183646a218d93b0f9420ebef36e817db3",
+  "render": {
+    "zoom": 3.0,
+    "page_size_pt": [
+      612.0,
+      792.0
+    ]
+  },
+  "body_text_size_pt": 10.0,
+  "caption_side": {
+    "Figure": "above",
+    "Table": "above"
+  },
+  "note": "rect_norm is per-mille of the page; use it when reading coordinates off a rendered page at any display scale.",
+  "crops": [
+    {
+      "id": "Figure 1",
+      "kind": "figure",
+      "pdf_page": 1,
+      "caption": "Figure 1: A typical robot policy maps a simple instruction and an observation into a short action chunk. As datasets scale, this mapping becomes increasingly multimodal and uncertain, leading models to learn spurious short-horizon correlations. VPP2 first establishes consistent semantic-to- trajectory mappings via next event video prediction with detailed captions, then post-trains and distills the model to generate short action chunks.",
+      "caption_bbox_pt": [
+        108.0,
+        674.1,
+        505.65,
+        727.97
+      ],
+      "rect_pt": [
+        107.76,
+        502.41,
+        505.65,
+        735.97
+      ],
+      "rect_px": [
+        323,
+        1507,
+        1517,
+        2208
+      ],
+      "rect_norm": [
+        177,
+        635,
+        826,
+        929
+      ],
+      "ink_parts": 142,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Figure 2",
+      "kind": "figure",
+      "pdf_page": 3,
+      "caption": "Figure 2: An example of our data processing pipeline. The central objective is to reduce uncertainty in future prediction, thereby encouraging the model to learn a consistent mapping from conditioning information to sub-task trajectories. To this end, each caption includes detailed task descriptions, explicit end-effector identification, a description of the visible target object, and camera-view changes.",
+      "caption_bbox_pt": [
+        108.0,
+        353.65,
+        505.25,
+        396.44
+      ],
+      "rect_pt": [
+        107.53,
+        223.63,
+        505.74,
+        408.37
+      ],
+      "rect_px": [
+        323,
+        671,
+        1517,
+        1225
+      ],
+      "rect_norm": [
+        176,
+        283,
+        826,
+        515
+      ],
+      "ink_parts": 43,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Figure 3",
+      "kind": "figure",
+      "pdf_page": 3,
+      "caption": "Figure 3: (a) Bounding boxes show the aligned workspaces of different datasets. (b) Aligned end-effector coordinate frames.",
+      "caption_bbox_pt": [
+        313.56,
+        648.32,
+        504.0,
+        680.26
+      ],
+      "rect_pt": [
+        301.56,
+        512.09,
+        516.0,
+        687.18
+      ],
+      "rect_px": [
+        905,
+        1536,
+        1548,
+        2062
+      ],
+      "rect_norm": [
+        493,
+        647,
+        843,
+        867
+      ],
+      "ink_parts": 20,
+      "confidence": "high",
+      "reason": "caption-above, caption-width",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Figure 4",
+      "kind": "figure",
+      "pdf_page": 5,
+      "caption": "Figure 4: The VPP2 training pipeline is designed to maximize generalization. Stage 1 uses large- scale, event-level video pretraining to learn a generalizable video model for manipulation. Stage 2 post-trains and distills this model to predict long-horizon video chunks spanning 8 seconds in a single forward pass, taking approximately 0.1 seconds. Finally, Stage 3 trains an action expert to generate 2-second action chunks conditioned on the one-step video latents.",
+      "caption_bbox_pt": [
+        108.0,
+        223.38,
+        505.65,
+        277.25
+      ],
+      "rect_pt": [
+        107.53,
+        73.04,
+        505.74,
+        289.25
+      ],
+      "rect_px": [
+        323,
+        219,
+        1517,
+        868
+      ],
+      "rect_norm": [
+        176,
+        93,
+        826,
+        365
+      ],
+      "ink_parts": 147,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Figure 5",
+      "kind": "figure",
+      "pdf_page": 6,
+      "caption": "Figure 5: VPP2 video predictions for human-hand and robot manipulation. Trained on large-scale, diverse manipulation datasets, VPP2 generalizes across human hands and a wide range of robot embodiments. For robot manipulation, VPP2 jointly predicts one to three camera views arranged in a T-shaped composite. Due to space constraints, single-step video predictions after distillation are shown in Figure 10 in the appendix.",
+      "caption_bbox_pt": [
+        108.0,
+        372.73,
+        505.25,
+        426.58
+      ],
+      "rect_pt": [
+        107.64,
+        73.57,
+        505.65,
+        437.31
+      ],
+      "rect_px": [
+        323,
+        221,
+        1517,
+        1312
+      ],
+      "rect_norm": [
+        176,
+        93,
+        826,
+        552
+      ],
+      "ink_parts": 32,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Figure 6",
+      "kind": "figure",
+      "pdf_page": 7,
+      "caption": "Figure 6: Win rates of the pretrained VPP2 model against different baselines on video prediction tasks.",
+      "caption_bbox_pt": [
+        242.64,
+        161.12,
+        504.0,
+        181.96
+      ],
+      "rect_pt": [
+        238.68,
+        72.05,
+        505.74,
+        193.96
+      ],
+      "rect_px": [
+        716,
+        216,
+        1517,
+        582
+      ],
+      "rect_norm": [
+        390,
+        91,
+        826,
+        244
+      ],
+      "ink_parts": 73,
+      "confidence": "high",
+      "reason": "caption-above, split-from-neighbour",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Figure 7",
+      "kind": "figure",
+      "pdf_page": 7,
+      "caption": "Figure 7: Comparison of instruction-following capabilities among VPP2, Wan-14B, and Cosmos3- 64B. VPP2 demonstrates better instruction following on complex tasks requiring spatial understand- ing.",
+      "caption_bbox_pt": [
+        108.0,
+        322.01,
+        505.66,
+        353.93
+      ],
+      "rect_pt": [
+        107.53,
+        188.93,
+        505.74,
+        365.93
+      ],
+      "rect_px": [
+        323,
+        567,
+        1517,
+        1098
+      ],
+      "rect_norm": [
+        176,
+        239,
+        826,
+        462
+      ],
+      "ink_parts": 18,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Figure 8",
+      "kind": "figure",
+      "pdf_page": 8,
+      "caption": "Figure 8: Zero-shot success rates on the real-world ALOHA across 10 randomly selected task categories. For a fair comparison, we finetune π0.5 and FastWAM on all ALOHA datasets exposed in VPP2’s training data and use the 14B variant of FastWAM.",
+      "caption_bbox_pt": [
+        107.64,
+        159.75,
+        504.25,
+        191.71
+      ],
+      "rect_pt": [
+        107.25,
+        73.4,
+        505.74,
+        203.14
+      ],
+      "rect_px": [
+        322,
+        220,
+        1517,
+        609
+      ],
+      "rect_norm": [
+        176,
+        93,
+        826,
+        256
+      ],
+      "ink_parts": 110,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Figure 9",
+      "kind": "figure",
+      "pdf_page": 9,
+      "caption": "Figure 9: Success rates with and without VLM-based subtask planning (50 trials per task). Average is the five-task mean; the baseline checkpoint matches Table 4.",
+      "caption_bbox_pt": [
+        108.0,
+        244.33,
+        504.0,
+        265.25
+      ],
+      "rect_pt": [
+        107.5,
+        158.65,
+        505.66,
+        276.42
+      ],
+      "rect_px": [
+        322,
+        476,
+        1517,
+        829
+      ],
+      "rect_norm": [
+        176,
+        201,
+        826,
+        349
+      ],
+      "ink_parts": 44,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Figure 10",
+      "kind": "figure",
+      "pdf_page": 19,
+      "caption": "Figure 10: Additional video prediction results on open-ended tasks. We compare single-step video predictions before and after distillation. Distillation enables high-quality video prediction with just one sampling step.",
+      "caption_bbox_pt": [
+        108.0,
+        669.76,
+        504.0,
+        701.76
+      ],
+      "rect_pt": [
+        108.0,
+        98.65,
+        504.0,
+        713.76
+      ],
+      "rect_px": [
+        324,
+        296,
+        1512,
+        2141
+      ],
+      "rect_norm": [
+        177,
+        125,
+        823,
+        901
+      ],
+      "ink_parts": 50,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Table 1",
+      "kind": "table",
+      "pdf_page": 3,
+      "caption": "Table 1: Overview of training data sources. Full dataset references are provided in Appendix A, Table 5.",
+      "caption_bbox_pt": [
+        107.69,
+        202.63,
+        505.24,
+        223.63
+      ],
+      "rect_pt": [
+        107.53,
+        75.62,
+        505.74,
+        228.12
+      ],
+      "rect_px": [
+        323,
+        227,
+        1517,
+        684
+      ],
+      "rect_norm": [
+        176,
+        96,
+        826,
+        288
+      ],
+      "ink_parts": 21,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Table 2",
+      "kind": "table",
+      "pdf_page": 7,
+      "caption": "Table 2: Instruction following success rates.",
+      "caption_bbox_pt": [
+        107.69,
+        165.73,
+        234.72,
+        186.73
+      ],
+      "rect_pt": [
+        107.53,
+        72.92,
+        238.68,
+        198.73
+      ],
+      "rect_px": [
+        323,
+        219,
+        716,
+        596
+      ],
+      "rect_norm": [
+        176,
+        93,
+        390,
+        250
+      ],
+      "ink_parts": 21,
+      "confidence": "high",
+      "reason": "caption-above, split-from-neighbour",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Table 3",
+      "kind": "table",
+      "pdf_page": 8,
+      "caption": "Table 3: Post-training on LIBERO-ID, LIBERO-Pro, and LIBERO-OOD benchmarks. All models are trained exclusively on the four standard LIBERO suites (Liu et al., 2023) and are evaluated under three complementary settings.",
+      "caption_bbox_pt": [
+        107.69,
+        329.11,
+        504.17,
+        361.04
+      ],
+      "rect_pt": [
+        107.25,
+        195.47,
+        505.74,
+        373.04
+      ],
+      "rect_px": [
+        322,
+        586,
+        1517,
+        1119
+      ],
+      "rect_norm": [
+        176,
+        247,
+        826,
+        471
+      ],
+      "ink_parts": 102,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Table 4",
+      "kind": "table",
+      "pdf_page": 9,
+      "caption": "Table 4: Post-training results on the RoboDojo simulation benchmark. Average score captures partial task progress, and success rate measures binary task completion; both are averaged over the five capability dimensions. Baseline results are taken from the official leaderboard.",
+      "caption_bbox_pt": [
+        107.69,
+        126.85,
+        504.0,
+        158.65
+      ],
+      "rect_pt": [
+        107.5,
+        74.61,
+        505.66,
+        160.25
+      ],
+      "rect_px": [
+        322,
+        224,
+        1517,
+        481
+      ],
+      "rect_norm": [
+        176,
+        95,
+        826,
+        202
+      ],
+      "ink_parts": 24,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Table 5",
+      "kind": "table",
+      "pdf_page": 18,
+      "caption": "Table 5: Training data sources with references to the original datasets. Self-collected datasets are collected as part of this work.",
+      "caption_bbox_pt": [
+        107.69,
+        317.27,
+        504.0,
+        338.27
+      ],
+      "rect_pt": [
+        107.33,
+        128.48,
+        505.25,
+        350.27
+      ],
+      "rect_px": [
+        322,
+        385,
+        1516,
+        1051
+      ],
+      "rect_norm": [
+        176,
+        163,
+        825,
+        442
+      ],
+      "ink_parts": 25,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Table 6",
+      "kind": "table",
+      "pdf_page": 20,
+      "caption": "Table 6: Per-suite success rates (%) on the standard LIBERO benchmark. Best results in each column are in bold.",
+      "caption_bbox_pt": [
+        107.69,
+        312.89,
+        504.0,
+        333.73
+      ],
+      "rect_pt": [
+        107.64,
+        163.8,
+        505.65,
+        345.73
+      ],
+      "rect_px": [
+        323,
+        491,
+        1517,
+        1037
+      ],
+      "rect_norm": [
+        176,
+        207,
+        826,
+        436
+      ],
+      "ink_parts": 66,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Table 7",
+      "kind": "table",
+      "pdf_page": 20,
+      "caption": "Table 7: Per-dimension average score on the RoboDojo simulation benchmark. Generalization is evaluated under standard (Std.) and randomized (Rand.) settings. Avg. is the mean over the five capability dimensions, where the generalization score is the mean of the Std. and Rand. settings. For VPP2, we report the generalization result pooled over both settings (25 episodes each, following the official protocol), which equals their mean. Baseline results are taken from the official leaderboard.",
+      "caption_bbox_pt": [
+        107.64,
+        653.12,
+        504.17,
+        706.99
+      ],
+      "rect_pt": [
+        107.64,
+        514.34,
+        505.65,
+        718.99
+      ],
+      "rect_px": [
+        323,
+        1543,
+        1517,
+        2157
+      ],
+      "rect_norm": [
+        176,
+        650,
+        826,
+        907
+      ],
+      "ink_parts": 68,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    },
+    {
+      "id": "Table 8",
+      "kind": "table",
+      "pdf_page": 21,
+      "caption": "Table 8: Per-dimension success rate (%) on the RoboDojo simulation benchmark, computed in the same way as Table 7.",
+      "caption_bbox_pt": [
+        107.69,
+        460.22,
+        504.0,
+        481.19
+      ],
+      "rect_pt": [
+        107.69,
+        323.41,
+        504.0,
+        493.19
+      ],
+      "rect_px": [
+        323,
+        970,
+        1512,
+        1480
+      ],
+      "rect_norm": [
+        176,
+        409,
+        823,
+        622
+      ],
+      "ink_parts": 68,
+      "confidence": "high",
+      "reason": "caption-above, full-column",
+      "verified_by": "model-viewed"
+    }
+  ]
+}

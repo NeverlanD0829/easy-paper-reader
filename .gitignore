@@ -1,0 +1,28 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+venv/
+
+# 运行产物：工作目录里的中间文件不进仓库
+rendered-pages/
+assets/
+source_bundle.json
+crop_plan.json
+screenshot-index.json
+selection-confirmed.json
+selection-proposal.md
+article.md
+article-zhihu.html
+audit-report.json
+tone-report.json
+*.pdf
+
+# 例外：examples/ 下是一次完整运行的快照，文章、裁图和各阶段产物放在同一个目录里，
+# 两道门禁可以直接对它跑。相对路径的图片引用必须跟文章一起进仓库，否则 GitHub 上是坏链。
+!examples/**/
+!examples/**
+
+# 例外的例外：S9 的 HTML 里写的是本机绝对路径（file:///Users/...），换台机器就是坏链，
+# 而且一条命令就能重新生成，不进仓库。
+examples/**/article-zhihu.html

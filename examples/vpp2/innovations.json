@@ -1,0 +1,146 @@
+[
+  {
+    "id": "inn-01",
+    "name_zh": "按完整操作事件采样未来帧的「下一个事件」视频预测",
+    "name_en": "next event video prediction / event-level continued pretraining",
+    "what": "把视频预测的目标从固定时长的未来片段换成一个完整操作子任务：给定首帧 o0，在整段事件 (o0..oT) 上均匀取 N 帧作为预测目标（Eq. 1），49 帧、416x240，在 Wan2.1-I2V-14B 上续训 30000 步、batch 1024、lr 1e-5",
+    "why_new": "事件的起止由子任务语义决定，于是「详细指令 → 未来帧序列」成为一对一映射；固定时长采样会让同一句指令对应处于不同进度的多种未来，映射是多模态的",
+    "vs_prior": "Wan2.1-I2V-14B、LVP、Cosmos3-Nano-16B、Cosmos3-Super-Image2Video-64B 均按固定时间窗采样未来帧",
+    "evidence": [
+      {
+        "locator": "表 2",
+        "what_it_shows": "VPP2-Fixed-Step 这一行只把事件级采样换成固定时长采样，其余不变，指令遵循成功率从 0.80/0.90（人手/机器人）掉到 0.48/0.42，比 LVP 的 0.62/0.46 还低"
+      },
+      {
+        "locator": "图 1 下半部分",
+        "what_it_shows": "作者用「简单 caption → 多峰分布」与「详细 caption + 完整轨迹 → 单峰分布」的示意图把这条创新点画成全文核心论点"
+      }
+    ],
+    "strength": "strong",
+    "caveat": "该消融只在 GPT 评判的指令遵循率这一个指标上做，每个域 50 对样本、单次运行，且没有验证事件级采样对下游动作成功率的影响"
+  },
+  {
+    "id": "inn-02",
+    "name_zh": "围绕四类不确定性设计的详细 caption 生成流程",
+    "name_en": "detailed captioning pipeline",
+    "what": "按模板给每个 1-12 秒的片段标注：操作过程描述、显式指明哪只末端执行器在动、用属性或空间关系唯一确定目标物体、描述相机视角与运动；末端执行器与目标物体必须在首帧可见，否则裁掉片段开头",
+    "why_new": "把「指令 → 未来」映射中的四个歧义来源逐个消掉，让条件信息足以确定未来，而不是靠模型猜",
+    "vs_prior": "LVP 等同类工作沿用数据集自带的简短任务指令（如 Place the bowl inside the box），不区分左右手、不消歧同类物体",
+    "evidence": [
+      {
+        "locator": "图 2",
+        "what_it_shows": "一个完整样例：首帧筛选、两处目标消歧（left cup / left most yellow box）、多视角拼接，到最终 caption 的全过程，但只是流程展示而非对照实验"
+      },
+      {
+        "locator": "表 3",
+        "what_it_shows": "LIBERO-Pro 的 Task 扰动上 VPP2 47.8 对最强基线 6.8，作者把这归因于详细 caption 建立的稳定映射，但这是整体系统对比"
+      }
+    ],
+    "strength": "moderate",
+    "caveat": "全文没有「简短 caption vs 详细 caption」的单独消融，四类不确定性里哪一类真正起作用无法区分；Figure 2 只给了一个样例"
+  },
+  {
+    "id": "inn-03",
+    "name_zh": "跨数据集的统一动作空间与末端执行器坐标系对齐",
+    "name_en": "unified action space and unified end-effector coordinate systems",
+    "what": "对占全部数据 80% 以上的以自我为中心的双臂数据做两级对齐：工作空间对齐 Ad（世界系变换，让不同机器人的可达空间可比）和末端对齐 Bd（局部变换，统一末端原点与轴向），对齐后位姿为 Td~ = Ad Td Bd（式 6）",
+    "why_new": "同一个「向左移动」在不同数据集里可能是 +x 或 -y，不对齐就等于让模型在互相冲突的动作标注上学习动作维度的语义",
+    "vs_prior": "OXE 等聚合数据集直接混合各自原生动作空间；论文把这一步显式写成两个可组合的刚体变换",
+    "evidence": [
+      {
+        "locator": "图 3",
+        "what_it_shows": "(a) 若干数据集对齐后的工作空间包围盒落在同一坐标系的相近范围内，(b) 两种形态的末端被旋转到同一套轴向；都是定性展示，没有对齐误差的数值"
+      }
+    ],
+    "strength": "moderate",
+    "caveat": "没有「关掉对齐再训一遍」的消融，也没有报告对齐残差；且只覆盖自我中心双臂数据，剩下不到 20% 的单臂/第三人称数据怎么处理没有说明"
+  },
+  {
+    "id": "inn-04",
+    "name_zh": "chunk 级后训练 + 一致性蒸馏得到的单步视觉规划器",
+    "name_en": "chunk-level post-training and consistency distillation",
+    "what": "先把事件级模型后训练成预测固定时长（人手 2 秒、机器人 8 秒）的未来 chunk（Eq. 4），再做一致性蒸馏（Eq. 5），把多步采样压成单次前向；视频输入降到 17x416x240，bfloat16 + torch.compile 下视频部分约 0.12 秒，整条动作 chunk 约 0.22 秒",
+    "why_new": "事件时长不一导致预测帧之间的时间间隔可变，无法与定长动作 chunk 对齐；固定时长解决对齐，蒸馏解决闭环控制的延迟",
+    "vs_prior": "早期 WAM 先生成未来帧再做逆动力学，迭代式视频生成带来无法闭环的延迟",
+    "evidence": [
+      {
+        "locator": "图 10",
+        "what_it_shows": "8 个开放任务上「蒸馏前单步」与「蒸馏后单步」的逐帧对比：蒸馏前单步采样退化成紫灰色糊状、物体身份丢失，蒸馏后同样一步就能出清晰可辨的帧"
+      },
+      {
+        "locator": "正文的推理延迟一段",
+        "what_it_shows": "延迟拆解到 0.12 秒（视频）+ 0.1 秒（动作专家 5 步去噪）= 约 0.22 秒"
+      }
+    ],
+    "strength": "moderate",
+    "caveat": "Figure 10 是纯定性的，没有 FVD/PSNR 之类的指标，也没有「蒸馏前多步」这一真正的教师参照；延迟数字只给单次测量，没有硬件配置与方差"
+  },
+  {
+    "id": "inn-05",
+    "name_zh": "MoT 动作专家与把动作与视频隔开的注意力掩码",
+    "name_en": "action expert via mixture-of-transformers (MoT), implicit inverse dynamics",
+    "what": "新增一个 0.9B 的 DiT 作为动作专家，以 MoT 方式与视频 DiT 共享注意力；按 Figure 4 右侧的掩码，视频 token 只彼此可见（看不到任何动作 token），动作 token 只能看到与自己时间范围重叠的前段视频 latent（o0、oh）和全部动作 token",
+    "why_new": "等价于一个隐式逆动力学模型；掩码的单向性意味着动作训练的梯度不会经注意力回流去改写视频预测，这正是论文开头指出的第二个病因",
+    "vs_prior": "Cosmos-Policy、Fast-WAM、DiT4DiT 等把动作目标直接加进视频模型，论文引用 Mishra et al. 2026 说明这会损害视频模型的泛化",
+    "evidence": [
+      {
+        "locator": "图 4 右侧的注意力掩码",
+        "what_it_shows": "6x6 掩码里视频行对动作列全为空、动作行对 oh'/oH 列全为空，是这条设计唯一的直接证据，但只是结构图不是实验"
+      },
+      {
+        "locator": "表 3 的 LIBERO-OOD 列",
+        "what_it_shows": "同样基于视频模型的 Cosmos-Policy / Fast-WAM / DiT4DiT 在 LIBERO-OOD 上最高只有 10.5，VPP2 为 63.9，与「动作训练不要污染视频先验」的论点一致，但属整体系统对比"
+      }
+    ],
+    "strength": "moderate",
+    "caveat": "没有把 MoT 换成其他动作头、或放开掩码再测一遍的消融，所以无法把这 50 多分的差距归到掩码设计上；动作专家大小 0.9B 也未做扫描"
+  },
+  {
+    "id": "inn-06",
+    "name_zh": "动作训练早期冻结视频 DiT、只用 LoRA 适配",
+    "name_en": "frozen video backbone with LoRA adaptation during action training",
+    "what": "动作专家是新初始化的，所以动作训练早期冻结视频 DiT 的基础参数，视频骨干只通过 LoRA 适配",
+    "why_new": "把「保留视频预训练表征」从一句愿望变成可执行的训练安排，限制动作梯度对视频骨干的扰动",
+    "vs_prior": "论文未点名具体对手做此项对比；对照对象是同类 WAM 常见的全参数联合微调",
+    "evidence": [
+      {
+        "locator": "表 3",
+        "what_it_shows": "VPP2 在 LIBERO-ID 98.8 的同时 LIBERO-Pro 45.0、LIBERO-OOD 63.9，而其余方法 LIBERO-ID 普遍超过 94 却在泛化设置上崩到个位数，整体上支持「泛化没有在动作训练中被训掉」"
+      }
+    ],
+    "strength": "moderate",
+    "caveat": "属于工程选择，论文没给出 full fine-tune 的对照，也没说明「早期」持续多少步、之后是否解冻"
+  },
+  {
+    "id": "inn-07",
+    "name_zh": "VLM 高层子任务规划的分层执行",
+    "name_en": "VLM for high-level planning / sub-task planning",
+    "what": "推理时由一个 VLM 承担长程推理、语义理解和记忆，把开放式或含糊的人类指令翻译成明确的子任务指令，VPP2 只负责「明确指令 → 轨迹」这一段；VLM 可本地部署或走 API",
+    "why_new": "把长程与歧义处理从策略里拿掉，使策略的条件分布继续保持单峰，和 inn-01 的动机一致",
+    "vs_prior": "论文引用 Shi et al. 2025 的分层架构，差别在于下层是一个视频预测策略而非常规 VLA",
+    "evidence": [
+      {
+        "locator": "图 9",
+        "what_it_shows": "RoboDojo 五个任务组上，开子任务规划后平均成功率 57.6% 对 27.6%，语言条件码垛从 10% 到 52%、井字棋从 0% 到 38%，每个任务 50 次试验"
+      }
+    ],
+    "strength": "moderate",
+    "caveat": "这不是纯粹的「开关 VLM」对照：子任务条件策略是另外切分数据重新训练的，训练数据粒度与测试时 VLM 同时变了，两个变量无法分离；且只选了 5 个任务组，Table 4 的 42 个任务主结果并未使用规划"
+  },
+  {
+    "id": "inn-08",
+    "name_zh": "测试时把指令改写成与训练 caption 同构的详细描述",
+    "name_en": "prompt enhancement",
+    "what": "VLM 规划时顺带生成与训练阶段 caption 模板同构的详细子任务描述，使推理时的条件分布与训练时一致",
+    "why_new": "训练用详细 caption、测试只给一句简短指令会造成条件分布错配；这一步把错配补上",
+    "vs_prior": "作者类比 Wan、Yang et al. 2025 在视频生成里的 prompt enhancement 做法",
+    "evidence": [
+      {
+        "locator": "正文的 prompt enhancement 一段",
+        "what_it_shows": "仅有作者陈述与对视频生成文献的类比；全文没有任何实验比较「模板化详细指令」与「原始简短指令」在下游成功率上的差异，因此只能记为 claimed"
+      }
+    ],
+    "strength": "claimed",
+    "caveat": "零样本 ALOHA（Figure 8）与基准结果（Table 3/Table 4）是否使用了 prompt 增强、用的是哪个 VLM，论文都没有交代，这会影响这些数字的可复现性"
+  }
+]

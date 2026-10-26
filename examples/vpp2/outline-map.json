@@ -1,0 +1,198 @@
+{
+  "schema_version": "1.0",
+  "outline_confirmed": true,
+  "outline_method": "toc+numbers",
+  "note": "附录 A / A.1 / A.2 / B / C / C.1 / C.2 不单独成节，其图表挂到正文引用它们的章节；Abstract 融进开头的结论先行，6. Conclusion 并进文末的「总结」。mentions[].section 对若干 float 的归属有误（同一页上把 float 记到了该页后面出现的下一个标题），已按正文论证位置纠正，见下面各节的 assets_note。",
+  "sections": [
+    {
+      "number": "1",
+      "title_en": "Introduction",
+      "level": 1,
+      "heading_zh": "## 二、这篇论文要解决什么问题",
+      "pdf_page": 2,
+      "assets": [
+        "Figure 1"
+      ],
+      "assets_note": "Figure 1 的有效 mention 是 p.2「As illustrated in Figure 1 ...」，该句属 Introduction 第三段；mentions 把它记成 section 2，已纠正"
+    },
+    {
+      "number": "2",
+      "title_en": "Data Processing Pipeline",
+      "level": 1,
+      "heading_zh": "## 三、数据处理：把「未来」变成唯一答案",
+      "pdf_page": 2,
+      "assets": [
+        "Figure 2",
+        "Figure 3",
+        "Table 1",
+        "Table 5",
+        "Equation 6"
+      ],
+      "assets_note": "Table 1 是数据来源表、Table 5 是其带文献版，均一句话带过；Equation 6 即 p.4 的坐标对齐式，行内给出"
+    },
+    {
+      "number": "3",
+      "title_en": "VPP2: A Generalist Policy with Zero-shot Capability",
+      "level": 1,
+      "heading_zh": "## 四、VPP2：一个具备零样本能力的通用策略",
+      "pdf_page": 4,
+      "assets": [],
+      "assets_note": "本节只有 Overview 一段，图表都落在 3.1 / 3.2 / 3.3"
+    },
+    {
+      "number": "3.1",
+      "title_en": "Video Prediction Model Training Pipeline",
+      "level": 2,
+      "heading_zh": "### 4.1 视频预测模型的训练流程",
+      "pdf_page": 4,
+      "assets": [
+        "Figure 4",
+        "Equation 1",
+        "Equation 2",
+        "Equation 3",
+        "Equation 4",
+        "Equation 5"
+      ],
+      "assets_note": "Equation 1 与 Equation 5 入核心清单走独立公式块；Equation 2/3/4 各一句话"
+    },
+    {
+      "number": "3.2",
+      "title_en": "Action Modeling",
+      "level": 2,
+      "heading_zh": "### 4.2 动作建模：让动作看得见视频、视频看不见动作",
+      "pdf_page": 5,
+      "assets": [],
+      "assets_note": "动作侧的唯一图示是 Figure 4 第三阶段与注意力掩码，已在 4.1 讲完，这里回指"
+    },
+    {
+      "number": "3.3",
+      "title_en": "VLM for High-level Planning.",
+      "level": 2,
+      "heading_zh": "### 4.3 用 VLM 做高层规划",
+      "pdf_page": 5,
+      "assets": [],
+      "assets_note": "对应实验证据 Figure 9 在 4.2 节（5.2）出现，这里只讲设计"
+    },
+    {
+      "number": "4",
+      "title_en": "Experiments",
+      "level": 1,
+      "heading_zh": "## 五、实验：三个问题，三组证据",
+      "pdf_page": 6,
+      "assets": [],
+      "assets_note": "本节只列三个待回答的问题"
+    },
+    {
+      "number": "4.1",
+      "title_en": "Video Prediction Quality Analysis",
+      "level": 2,
+      "heading_zh": "### 5.1 视频预测质量分析",
+      "pdf_page": 6,
+      "assets": [
+        "Figure 5",
+        "Table 2",
+        "Figure 6",
+        "Figure 7",
+        "Figure 10"
+      ],
+      "assets_note": "Table 2 / Figure 6 / Figure 7 的正文论证都在 4.1（p.7，4.2 标题之后才开始），mentions 把它们记成 4.2，已纠正；Figure 10 正文无提及（fallback=section-body），按 Figure 5 caption 的引用挂到本节"
+    },
+    {
+      "number": "4.2",
+      "title_en": "Policy Performance Analysis",
+      "level": 2,
+      "heading_zh": "### 5.2 策略性能分析",
+      "pdf_page": 7,
+      "assets": [
+        "Figure 8",
+        "Table 3",
+        "Table 6",
+        "Table 4",
+        "Table 7",
+        "Table 8",
+        "Figure 9"
+      ],
+      "assets_note": "Table 6 / Table 7 / Table 8 在附录 C，按正文引用处挂在本节；Figure 9 的 mention 被记成 section 6，但「VPP2 with Subtask Planning」一段属 4.2，已纠正"
+    },
+    {
+      "number": "5",
+      "title_en": "Related Works",
+      "level": 1,
+      "heading_zh": "## 六、相关工作",
+      "pdf_page": 9,
+      "assets": [],
+      "assets_note": "压成一段，不逐篇列"
+    }
+  ],
+  "merged_sections": [
+    {
+      "title_caps": "ABSTRACT",
+      "into": "## 一、结论先行：VPP2 到底新在哪"
+    },
+    {
+      "number": "6",
+      "title_en": "Conclusion",
+      "into": "## 七、总结"
+    },
+    {
+      "number": "A",
+      "title_en": "Dataset Process Details",
+      "into": "三"
+    },
+    {
+      "number": "A.1",
+      "title_en": "Video Captioning.",
+      "into": "三"
+    },
+    {
+      "number": "A.2",
+      "title_en": "Unified Action Space",
+      "into": "三"
+    },
+    {
+      "number": "B",
+      "title_en": "More Video Prediction Results",
+      "into": "5.1"
+    },
+    {
+      "number": "C",
+      "title_en": "Detailed Benchmark Results",
+      "into": "5.2"
+    },
+    {
+      "number": "C.1",
+      "title_en": "Detailed LIBERO Results",
+      "into": "5.2"
+    },
+    {
+      "number": "C.2",
+      "title_en": "Detailed RoboDojo Results",
+      "into": "5.2"
+    }
+  ],
+  "dropped_sections": [
+    "ACKNOWLEDGMENTS",
+    "REPRODUCIBILITY STATEMENT",
+    "REFERENCES"
+  ],
+  "invented_sections": [
+    {
+      "heading_zh": "## 一、新在哪里，证据有多硬",
+      "position": "before-all",
+      "contains": [
+        "三句话创新点",
+        "创新点—证据强度对照表",
+        "术语约定表"
+      ]
+    },
+    {
+      "heading_zh": "## 七、总结",
+      "position": "after-all",
+      "contains": [
+        "方法与成绩各一句",
+        "证据边界三条",
+        "稳的结论两条"
+      ]
+    }
+  ]
+}
