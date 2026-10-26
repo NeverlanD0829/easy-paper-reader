@@ -2,7 +2,7 @@
 
 # easy-paper-reader
 
-把任意论文 PDF 解读成一篇可直接发知乎的中文长文。
+把一篇论文 PDF 从头读到尾，写成一篇中文长文解读 —— 想发知乎的话，再一键粘过去。
 
 不是摘要复述。四条硬约束贯穿整条流水线，每一条都有可机检的门禁：
 
@@ -11,22 +11,18 @@
 3. **章节对齐英文原文** —— 中文 `##` 标题与论文章节 1:1、顺序一致，自创章节最多两个（开头讲创新点、文末「总结」）。标题只说这一节讲什么，不把英文原标题带进括号，中英对应关系记在 `outline-map.json` 里；收尾固定叫「总结」，1200 字以内。
 4. **口吻像研究员，不像模型** —— 一道独立的中文 AI 味门禁，查摆姿势的句式、通胀词、译文腔、破折号与加粗的用量预算、段落长度是否过于整齐。
 
-`examples/vpp2/` 是在 VPP2（arXiv 2610.10270v2，21 页 / 10 图 8 表）上跑完整条流水线的产物，
-文章、裁图和各阶段中间文件都在同一个目录里，所以两道门禁可以直接对它跑：
+`examples/` 下留着一次完整的运行产物 —— 一篇 21 页、10 图 8 表的论文 —— 留它只是为了让两道门禁有真东西可跑：
 
 ```bash
 python3 scripts/audit_article.py examples/vpp2/article.md   # 13 pass / 0 warning / 0 error
 python3 scripts/check_tone.py    examples/vpp2/article.md   # 12 pass / 0 warning / 0 error
 ```
 
-`article.md` 约 1.7 万字，引用的 14 张裁图在 `examples/vpp2/assets/` 下，相对路径与文章同级，
-GitHub 和知乎里都能正常显示。表格与公式的筛选清单记在 `selection-proposal.md`，
-经用户确认后才写出 `selection-confirmed.json` —— skill 不许自己写这个文件，
-没问过人时 `selected_tables_confirmed` 就保持 warning。
-
-样例里只删了一样东西：`source_bundle.json` 的 `pages[].text` 原本是论文全文，不该随 skill 一起分发，
-两道门禁也不读它。每页的 `character_count` 留着，仍能看出文本层抽得正不正常；自己跑一遍
-`prepare_paper.py` 就有完整的 `pages[].text`。
+文章、它引用的 14 张裁图和各阶段中间文件都在同一个目录里，相对路径在 GitHub 和知乎草稿里都解析得到。
+表格与公式的筛选清单记在 `selection-proposal.md`，经用户确认后才写出 `selection-confirmed.json`
+—— skill 不许自己写这个文件，没问过人时 `selected_tables_confirmed` 就保持 warning。发布前删掉了一个字段：
+`source_bundle.json` 的 `pages[].text` 原本是论文全文，不该随 skill 一起分发，两道门禁也不读它；
+每页的 `character_count` 留着，仍能看出文本层抽得正不正常。
 
 ## 安装
 

@@ -1,6 +1,6 @@
 ---
 name: easy-paper-reader
-description: Turn any paper PDF into a long-form Chinese article ready to publish on Zhihu — contributions first, every figure in the paper cropped out and explained one by one, sections mirroring the English original, in the voice of a researcher rather than a model. Use for requests like 「解读这篇论文」「写篇论文解读」「paper 解读发知乎」「把这篇 paper 讲一下」, "read this paper for me", "write a paper breakdown".
+description: Read a paper PDF end to end and write it up as a long-form Chinese article, ready to paste into Zhihu — contributions first, every figure in the paper cropped out and explained one by one, sections mirroring the English original, in the voice of a researcher rather than a model. Use for requests like 「解读这篇论文」「写篇论文解读」「paper 解读发知乎」「把这篇 paper 讲一下」, "read this paper for me", "write a paper breakdown".
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 ---
 
@@ -246,8 +246,8 @@ table in the opening, and give the meaning of an equation without the derivation
 who has read the paper and is willing both to make it clear and to pick holes in it — not a model giving a
 briefing.
 
-`examples/vpp2/` is the full pipeline output on VPP2 (arXiv 2610.10270v2, 21 pages / 10 figures / 8 tables):
+`examples/vpp2/` is one finished run kept as a reference — a 21-page paper with 10 figures and 8 tables:
 `article.md` and the `assets/` it embeds in one directory, next to `innovations.json` (8 entries, 1 strong /
 6 moderate / 1 claimed), `source_bundle.json`, `crop_plan.json`, `screenshot-index.json` and both gate
 reports, so both gates run against `examples/vpp2/article.md` directly. When you are unsure how far to take
-a paragraph or what voice to use, follow it.
+a paragraph or what voice to use, follow it — the paper it happens to read is beside the point.

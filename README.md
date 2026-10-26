@@ -2,7 +2,8 @@
 
 # easy-paper-reader
 
-Turn any paper PDF into a long-form Chinese article you can paste straight into Zhihu.
+Read a paper PDF end to end and write it up as a long-form Chinese article — then, if you want, paste it
+straight into Zhihu.
 
 Not a summary. Four hard constraints run through the pipeline, each with a machine-checkable gate:
 
@@ -21,25 +22,21 @@ Not a summary. Four hard constraints run through the pipeline, each with a machi
    patterns, inflated words, translationese, budgets for em dashes and bold, and whether paragraph
    lengths are suspiciously uniform.
 
-`examples/vpp2/` is the full pipeline output on VPP2 (arXiv 2610.10270v2, 21 pages / 10 figures / 8 tables).
-The article, the crops and every intermediate artifact sit in one directory, so both gates run against it
-directly:
+`examples/` holds one full run — a 21-page paper with 10 figures and 8 tables — kept only so the gates have
+something real to run against:
 
 ```bash
 python3 scripts/audit_article.py examples/vpp2/article.md   # 13 pass / 0 warning / 0 error
 python3 scripts/check_tone.py    examples/vpp2/article.md   # 12 pass / 0 warning / 0 error
 ```
 
-`article.md` is roughly 17k characters and the 14 crops it embeds live in `examples/vpp2/assets/`, one level
-below the article, so relative paths resolve on both GitHub and Zhihu. The table and equation shortlist is
-recorded in `selection-proposal.md`; `selection-confirmed.json` is written only after the user agrees to it
-— the skill is not allowed to write that file on its own, and `selected_tables_confirmed` stays a warning
-until someone has been asked.
-
-One thing in the example was trimmed before publishing: `source_bundle.json`'s `pages[].text` held the
-paper's full extracted text, which is not ours to redistribute and which neither gate reads. The per-page
-`character_count` stays, so you can still see whether the text layer came out intact; running
-`prepare_paper.py` yourself gives you the full `pages[].text`.
+The article, its 14 crops and every intermediate artifact sit in one directory, so relative paths resolve
+on GitHub and in the Zhihu draft alike. `selection-confirmed.json` is written only after the user agrees to
+the table/equation shortlist in `selection-proposal.md` — the skill is not allowed to write that file on its
+own, and `selected_tables_confirmed` stays a warning until someone has been asked. One field was trimmed
+before publishing: `source_bundle.json`'s `pages[].text` held the paper's full extracted text, which is not
+ours to redistribute and which neither gate reads. The per-page `character_count` stays, so you can still
+see whether the text layer came out intact.
 
 ## Install
 
