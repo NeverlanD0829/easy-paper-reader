@@ -24,6 +24,10 @@ GitHub 和知乎里都能正常显示。表格与公式的筛选清单记在 `se
 经用户确认后才写出 `selection-confirmed.json` —— skill 不许自己写这个文件，
 没问过人时 `selected_tables_confirmed` 就保持 warning。
 
+样例里只删了一样东西：`source_bundle.json` 的 `pages[].text` 原本是论文全文，不该随 skill 一起分发，
+两道门禁也不读它。每页的 `character_count` 留着，仍能看出文本层抽得正不正常；自己跑一遍
+`prepare_paper.py` 就有完整的 `pages[].text`。
+
 ## 安装
 
 这是一个 Claude Code / Ducc 风格的 skill，放到 skills 目录下即可：

@@ -36,6 +36,11 @@ recorded in `selection-proposal.md`; `selection-confirmed.json` is written only 
 — the skill is not allowed to write that file on its own, and `selected_tables_confirmed` stays a warning
 until someone has been asked.
 
+One thing in the example was trimmed before publishing: `source_bundle.json`'s `pages[].text` held the
+paper's full extracted text, which is not ours to redistribute and which neither gate reads. The per-page
+`character_count` stays, so you can still see whether the text layer came out intact; running
+`prepare_paper.py` yourself gives you the full `pages[].text`.
+
 ## Install
 
 This is a Claude Code / Ducc style skill. Drop it into your skills directory:
